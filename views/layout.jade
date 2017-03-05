@@ -1,0 +1,41 @@
+doctype html
+html(ng-app="root")
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src="/javascripts/jquery-3.1.1.min.js")
+        script(src="/javascripts/angular.min.js")
+        script(src="/javascripts/root.js")
+        script(src="/javascripts/materialize-src/bin/materialize.min.js")
+    body.white-text
+        nav.z-depth-3.white-text
+            .nav-wrapper
+                .container
+                    .row
+                        .col.s12
+                            a(href="/", class="brand-logo") Gro
+                            //<ul id="nav-mobile" class="right hide-on-med-and-down input-field" ng-controller="registerController">
+                            ul#nav-mobile.right.hide-on-med-and-down.input-field
+                                li
+                                    input(type="text", placeholder="Username", ng-model="regUsername")
+                                li
+                                    input(type="password", placeholder="Password", ng-model="regPassword")
+                                li
+                                    a(class="waves-effect waves-light btn", ng-click="register()") Register
+                                    a(class="waves-effect waves-light btn", href="/login") Log In
+        main
+            block content
+        footer
+            #chat-area(ng-controller="chatController")
+                .row
+                    .col.s10
+                    .col.s2.white-text.chat-box
+                        .chat-box-top.z-depth-3 Some bad mentor
+                        .chat-box-middle.z-depth-3
+                            div(ng-repeat="message in messages track by $index", align="right")
+                                .chat-message.sent {{message}}
+                        .chat-box-input.z-depth-3
+                            input(type="text", name="chat", placeholder="Chat", id="chat", ng-model="chatMessage", ng-keypress="sendMessage($event)")
+            .row
+                p#copyright
+                    small.grey-text &copy; 2017 Gro
