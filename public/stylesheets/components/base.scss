@@ -1,11 +1,12 @@
 main {
-  flex : 1 0 auto;
+  flex: 1 0 auto;
 }
 
 nav {
-  background-color : $primary-color;
+  background-color: $primary-color;
 }
 
 .card {
-  background-color : $secondary-color;
+  background-color: $secondary-color;
+  color: #fff;
 }

@@ -6444,7 +6444,8 @@ nav {
   background-color: #1de9b6; }
 
 .card {
-  background-color: #8d6e63; }
+  background-color: #8d6e63;
+  color: #fff; }
 
 #chat-area {
   position: fixed;
