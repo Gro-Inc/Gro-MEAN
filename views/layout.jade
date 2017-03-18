@@ -7,6 +7,7 @@ html(ng-app="root")
         script(src="/javascripts/angular.min.js")
         script(src="/javascripts/root.js")
         script(src="/javascripts/materialize-src/bin/materialize.min.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js")
     body
         nav.z-depth-3.white-text
             .nav-wrapper
@@ -21,7 +22,7 @@ html(ng-app="root")
                                 li
                                     input(type="password", placeholder="Password", ng-model="regPassword")
                                 li
-                                    a(class="waves-effect waves-light btn", ng-click="register()") Register
+                                    a(class="waves-effect waves-light btn", href="/register") Register
                                     a(class="waves-effect waves-light btn", href="/login") Log In
         main
             block content
