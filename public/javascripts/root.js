@@ -1,9 +1,9 @@
 var app = angular.module("root", ["ngRoute"]);
 
 app.controller("registerController", function ($scope, $http) {
-    // $http({url: "/user/get-users"}).then(function (response) {
-    //     console.log(response);
-    // });
+    $http({url: "/user/get-users"}).then(function (response) {
+        console.log(response);
+    });
 
     $scope.register = function () {
         $http({
@@ -15,14 +15,13 @@ app.controller("registerController", function ($scope, $http) {
                 firstName: $scope.firstName,
                 lastName: $scope.lastName
             }
-        }).then(
-            function (response) {
-                console.log(response);
-            });
+        }).then(function (response) {
+            console.log(response);
+        });
     };
 });
 
-app.controller("chatController", function ($scope, $http) {
+app.controller("chatController", function ($scope, $http, $timeout) {
     var $chatMiddle = $(".chat-box-middle");
 
     $scope.messages = [];
@@ -32,7 +31,9 @@ app.controller("chatController", function ($scope, $http) {
             $scope.messages.push(messageArray.message);
         });
 
-        $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
+        $timeout(function () {
+            $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
+        }, 0, false);
     });
 
     $scope.sendMessage = function (keyEvent) {
