@@ -1,22 +1,20 @@
 extends layout
 
 block content
-    .container.black-text
+    .container
         form(method="post", ng-submit="register()", ng-controller="registerController")
             .row
-                .col.s6.input-field
+                .col.s3.input-field
                     input(type="text", id="firstName", name="firstName", ng-model="firstName")
                     label(for="firstName") First Name
-            .row
-                .col.s6.input-field
+                .col.s3.input-field
                     input(type="text", id="lastName", name="lastName", ng-model="lastName")
                     label(for="lastName") Last Name
             .row
-                .col.s6.input-field
+                .col.s3.input-field
                     input(type="text", id="username", name="username", ng-model="username")
                     label(for="username") Username
-            .row
-                .col.s6.input-field
+                .col.s3.input-field
                     input(type="password", id="password", name="password", ng-model="password")
                     label(for="password") Password
             .row

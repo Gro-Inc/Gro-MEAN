@@ -24,12 +24,16 @@ app.controller("registerController", function ($scope, $http) {
 });
 
 app.controller("chatController", function ($scope, $http) {
+    var $chatMiddle = $(".chat-box-middle");
+
     $scope.messages = [];
+
     $http({url: "/chat/get-messages"}).then(function (response) {
         angular.forEach(response.data, function (messageArray) {
             $scope.messages.push(messageArray.message);
-            $(".chat-box-middle").animate({scrollTop: $('.chat-box-middle').prop("scrollHeight")}, 1000);
         });
+
+        $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
     });
 
     $scope.sendMessage = function (keyEvent) {
@@ -40,20 +44,20 @@ app.controller("chatController", function ($scope, $http) {
                 params: {message: $scope.chatMessage}
             }).then(function (response) {
                 $scope.messages.push(response.data);
-                $(".chat-box-middle").animate({scrollTop: $('.chat-box-middle').prop("scrollHeight")}, 1000);
+                $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
             });
 
             $scope.chatMessage = "";
         }
     };
+});
 
-    app.config(function ($routeProvider) {
-        $routeProvider
-            .when("/register", {
-                template: "<h1>Main</h1><p>Click on the links to change this content</p>"
-            })
-            .otherwise({
-                template: "<h1>None</h1><p>Nothing has been selected</p>"
-            });
-    });
+app.config(function ($routeProvider) {
+    $routeProvider
+        .when("/register", {
+            template: "<h1>Main</h1><p>Click on the links to change this content</p>"
+        })
+        .otherwise({
+            template: "<h1>None</h1><p>Nothing has been selected</p>"
+        });
 });
