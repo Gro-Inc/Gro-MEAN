@@ -9,7 +9,6 @@ router.get('/get-messages', function (req, res, next) {
     // Connect to the db
     mongoClient.connect("mongodb://localhost:27017/GroChat", function (err, db) {
         db.collection('Messages', function (err, collection) {
-
             collection.find().toArray(function (err, items) {
                 if (err) {
                     throw err;
@@ -17,9 +16,7 @@ router.get('/get-messages', function (req, res, next) {
 
                 res.send(items);
             });
-
         });
-        //res.send(messages);
     });
 });
 
@@ -30,7 +27,7 @@ router.post('/send-message', function (req, res, next) {
     // Connect to the db
     mongoClient.connect("mongodb://localhost:27017/GroChat", function (err, db) {
         db.collection('Messages', function (err, collection) {
-            collection.insert({id: 1, message: req.query.message});
+            collection.insert({userId: 1, message: req.query.message});
         });
 
         res.send(req.query.message);

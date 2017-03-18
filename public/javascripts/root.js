@@ -1,11 +1,11 @@
 var app = angular.module("root", ["ngRoute"]);
 
 app.controller("registerController", function ($scope, $http) {
+    // $http({url: "/user/get-users"}).then(function (response) {
+    //     console.log(response);
+    // });
+
     $scope.register = function () {
-        console.log($scope.firstName);
-        console.log($scope.lastName);
-        console.log($scope.username);
-        console.log($scope.password);
         $http({
             url: "/user/register",
             method: "POST",
@@ -17,7 +17,6 @@ app.controller("registerController", function ($scope, $http) {
             }
         }).then(
             function (response) {
-                alert("registered");
                 console.log(response);
             });
     };
