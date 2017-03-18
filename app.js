@@ -29,7 +29,7 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/user', users);
 app.use('/chat', chat);
 
 // catch 404 and forward to error handler

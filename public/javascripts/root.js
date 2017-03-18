@@ -1,13 +1,24 @@
-var app = angular.module("root", []);
+var app = angular.module("root", ["ngRoute"]);
 
 app.controller("registerController", function ($scope, $http) {
     $scope.register = function () {
+        console.log($scope.firstName);
+        console.log($scope.lastName);
+        console.log($scope.username);
+        console.log($scope.password);
         $http({
             url: "/user/register",
             method: "POST",
-            params: {username: $scope.regUsername, password: $scope.regPassword}
+            params: {
+                username: $scope.username,
+                password: $scope.password,
+                firstName: $scope.firstName,
+                lastName: $scope.lastName
+            }
         }).then(
             function (response) {
+                alert("registered");
+                console.log(response);
             });
     };
 });
@@ -35,4 +46,14 @@ app.controller("chatController", function ($scope, $http) {
             $scope.chatMessage = "";
         }
     };
+
+    app.config(function ($routeProvider) {
+        $routeProvider
+            .when("/register", {
+                template: "<h1>Main</h1><p>Click on the links to change this content</p>"
+            })
+            .otherwise({
+                template: "<h1>None</h1><p>Nothing has been selected</p>"
+            });
+    });
 });
