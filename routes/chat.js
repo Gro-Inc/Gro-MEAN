@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
+var mongoClient = require('mongodb').MongoClient;
 
 
 /* GET users listing. */
@@ -8,7 +8,7 @@ router.get('/get-messages', function (req, res, next) {
     //   res.send('respond with a resource');
 
     // Connect to the db
-    MongoClient.connect("mongodb://localhost:27017/GroChat", function (err, db) {
+    mongoClient.connect("mongodb://localhost:27017/GroChat", function (err, db) {
         db.collection('Messages', function (err, collection) {
 
             collection.find().toArray(function (err, items) {
@@ -28,7 +28,7 @@ router.post('/send-message', function (req, res, next) {
     //   res.send('respond with a resource');
 
     // Connect to the db
-    MongoClient.connect("mongodb://localhost:27017/GroChat", function (err, db) {
+    mongoClient.connect("mongodb://localhost:27017/GroChat", function (err, db) {
         db.collection('Messages', function (err, collection) {
 
             collection.insert({id: 1, message: req.query.message});
