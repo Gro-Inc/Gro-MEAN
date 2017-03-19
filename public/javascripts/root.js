@@ -7,7 +7,7 @@ app.controller("registerController", function ($scope, $http) {
 
     $scope.register = function () {
         $http({
-            url: "/user/register",
+            url: "/auth/signup",
             method: "POST",
             params: {
                 username: $scope.username,
