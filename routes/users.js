@@ -1,6 +1,16 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require("mongoose");
 var mongoClient = require('mongodb').MongoClient;
+
+var userSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    firstName: String,
+    lastName: String
+});
+
+mongoose.model("User", userSchema);
 
 router.post('/register', function (req, res) {
     mongoClient.connect("mongodb://localhost:27017/GroUser", function (err, db) {
@@ -12,7 +22,7 @@ router.post('/register', function (req, res) {
                 lastName: req.query.lastName
             });
         });
-        
+
         res.send("Registered");
     });
 });
