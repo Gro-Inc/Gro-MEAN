@@ -21,14 +21,4 @@ router.post('/register', function (req, res) {
     res.send("Registered");
 });
 
-router.get("/get-users", function (req, res) {
-    User.find({}, function (err, users) {
-        if (err) {
-            throw err;
-        }
-
-        res.send(users);
-    });
-});
-
 module.exports = router;

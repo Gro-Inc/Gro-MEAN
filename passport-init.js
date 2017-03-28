@@ -5,8 +5,6 @@ var bCrypt = require("bcrypt-nodejs");
 
 module.exports = function (passport) {
     passport.serializeUser(function (user, done) {
-        console.log("serializing user: ", user._id);
-        
         return done(null, user._id);
     });
 
@@ -20,7 +18,7 @@ module.exports = function (passport) {
                 return done("User not found", false);
             }
 
-            return done(user, true);
+            return done(err, user);
         });
     });
 
@@ -69,8 +67,6 @@ module.exports = function (passport) {
                 if (err) {
                     return done(err, false);
                 }
-
-                console.log("successfully signed up user " + username);
 
                 return done(null, newUser);
             });

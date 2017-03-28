@@ -1,10 +1,6 @@
 var app = angular.module("root", ["ngRoute"]);
 
 app.controller("registerController", function ($scope, $http) {
-    $http({url: "/user/get-users"}).then(function (response) {
-        console.log(response);
-    });
-
     $scope.register = function () {
         $http({
             url: "/auth/signup",
