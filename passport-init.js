@@ -1,8 +1,7 @@
+var mongoose = require("mongoose");
+var User = mongoose.model("User");
 var LocalStrategy = require("passport-local").Strategy;
 var bCrypt = require("bcrypt-nodejs");
-var mongoose = require("mongoose");
-
-var User = mongoose.model("User");
 
 module.exports = function (passport) {
     passport.serializeUser(function (user, done) {
@@ -66,14 +65,14 @@ module.exports = function (passport) {
             newUser.username = username;
             newUser.password = createHash(password);
 
-            newUser.save(function (err, user) {
+            newUser.save(function (err) {
                 if (err) {
                     return done(err, false);
                 }
 
                 console.log("successfully signed up user " + username);
 
-                return done(null, user);
+                return done(null, newUser);
             });
         });
     }));

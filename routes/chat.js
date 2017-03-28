@@ -2,12 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require("mongoose");
 
-var messageSchema = new mongoose.Schema({
-    userId: Number,
-    message: String
-});
-
-var Message = mongoose.model("Message", messageSchema);
+var Message = mongoose.model("Message");
 
 /* GET users listing. */
 router.get('/get-messages', function (req, res, next) {
