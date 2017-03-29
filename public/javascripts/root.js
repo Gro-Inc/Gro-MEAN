@@ -1,5 +1,37 @@
 var app = angular.module("root", ["ngRoute"]);
 
+app.config(function($routeProvider, $locationProvider) {
+    $routeProvider
+        .when("/", {
+            templateUrl: "partials/index",
+            controller: "mainController"
+        })
+        .when("/register", {
+            templateUrl: "partials/register",
+            controller: "registerController"
+        })
+        .when("/login", {
+            templateUrl: "partials/login"
+        })
+        .otherwise({
+            template: "<h3>He's dead, Jim</h3>"
+        });
+});
+
+app.controller("navController", function ($scope, $http, $rootScope, $location) {
+    $scope.home = function () {
+        $location.path("/");
+    };
+
+    $scope.login = function () {
+        $location.path("/login");
+    };
+
+    $scope.register = function () {
+        $location.path("/register");
+    };
+});
+
 app.controller("registerController", function ($scope, $http) {
     $scope.register = function () {
         $http({
@@ -46,14 +78,4 @@ app.controller("chatController", function ($scope, $http, $timeout) {
             $scope.chatMessage = "";
         }
     };
-});
-
-app.config(function ($routeProvider) {
-    $routeProvider
-        .when("/register", {
-            template: "<h1>Main</h1><p>Click on the links to change this content</p>"
-        })
-        .otherwise({
-            template: "<h1>None</h1><p>Nothing has been selected</p>"
-        });
 });

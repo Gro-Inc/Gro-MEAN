@@ -9,19 +9,19 @@ html(ng-app="root")
         script(src="/javascripts/materialize-src/bin/materialize.min.js")
         script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js")
     body
-        nav.z-depth-3.white-text
+        nav.z-depth-3.white-text(ng-controller="navController")
             .nav-wrapper
                 .container
                     .row
                         .col.s12
-                            a(href="/", class="brand-logo") Gro
+                            a(ng-click="home()", class="brand-logo") Gro
                             //<ul id="nav-mobile" class="right hide-on-med-and-down input-field" ng-controller="registerController">
                             ul#nav-mobile.right.hide-on-med-and-down.input-field
                                 li
-                                    a(class="waves-effect waves-light btn", href="/register") Register
-                                    a(class="waves-effect waves-light btn", href="/login") Log In
+                                    a(class="waves-effect waves-light btn", ng-click="register()") Register
+                                    a(class="waves-effect waves-light btn", ng-click="login()") Log In
         main
-            block content
+            div(ng-view)
         footer
             #chat-area(ng-controller="chatController")
                 .row
