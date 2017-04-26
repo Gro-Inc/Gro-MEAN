@@ -26,9 +26,8 @@ html(ng-app="root")
         footer
             #chat-area(ng-controller="chatController")
                 .row
-                    .col.s10
-                    .col.s2.white-text.chat-box
-                        .chat-box-top.z-depth-3 Some bad mentor
+                    .col.right.white-text.chat-box
+                        .chat-box-top.z-depth-3 Some mentor
                         .chat-box-middle.z-depth-3
                             div(ng-repeat="message in messages track by $index", align="right")
                                 .chat-message.sent {{message}}
