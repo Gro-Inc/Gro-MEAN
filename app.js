@@ -6,6 +6,19 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var passport = require("passport");
+var firebase = require("firebase/app");
+require("firebase/auth");
+
+var config = {
+    apiKey: "AIzaSyDpYA6KUAEsMX_SbpTGA5PJjT_F09quMls",
+    authDomain: "gro-project.firebaseapp.com",
+    databaseURL: "https://gro-project.firebaseio.com",
+    projectId: "gro-project",
+    storageBucket: "gro-project.appspot.com",
+    messagingSenderId: "870268988730"
+};
+
+firebase.initializeApp(config);
 
 require("./models/models");
 
@@ -58,9 +71,8 @@ var initPassport = require("./passport-init")(passport);
 // error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    
     res.render('partials/error', {
+        status: err.status || 500,
         message: err.message,
         error: app.get('env') === 'development' ? err : {}
     });

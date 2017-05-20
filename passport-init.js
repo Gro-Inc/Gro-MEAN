@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var User = mongoose.model("User");
 var LocalStrategy = require("passport-local").Strategy;
 var bCrypt = require("bcrypt-nodejs");
+var firebase = require("firebase");
 
 module.exports = function (passport) {
     passport.serializeUser(function (user, done) {
@@ -26,51 +27,35 @@ module.exports = function (passport) {
         passReqToCallback : true
     },
     function (req, username, password, done) {
-        User.findOne({username: username}, function (err, user) {
-            if (err) {
-                return done(err, false);
-            }
+        var newUser = new User();
 
-            if (!user) {
-                return done("Username not found", false);
-            }
-
-            if (!isValidPassword(user, password)) {
-                return done("Password incorrect", false);
-            }
-
-            return done(null, user);
+        firebase.auth().signInWithEmailAndPassword(username, password).catch(function(error) {
+            // Handle Errors here.
+            console.log(error.code + " - " + error.message);
+            return done(error.message, null);
         });
+
+        newUser.username = username;
+        newUser.password = createHash(password);
+
+        return done(null, newUser);
     }));
 
     passport.use("signup", new LocalStrategy({
         passReqToCallback : true
     },
     function (req, username, password, done) {
-        User.findOne({username: username}, function(err, user) {
-            var newUser;
+        var newUser = new User();
 
-            if (err) {
-                return done(err, false);
-            }
-
-            if (user) {
-                return done("username is already taken", false);
-            }
-
-            newUser = new User();
-
-            newUser.username = username;
-            newUser.password = createHash(password);
-
-            newUser.save(function (err) {
-                if (err) {
-                    return done(err, false);
-                }
-
-                return done(null, newUser);
-            });
+        firebase.auth().createUserWithEmailAndPassword(username, password).catch(function(error) {
+            console.log(error.code + " - " + error.message);
+            return done(error.message, null);
         });
+
+        newUser.username = username;
+        newUser.password = createHash(password);
+
+        return done(null, newUser);
     }));
 
     var isValidPassword = function (user, password) {

@@ -2,12 +2,10 @@ const app = angular.module("root", ["ngRoute"]);
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
-        templateUrl: "partials/index",
-        controller: "mainController"
+        templateUrl: "partials/index"
     })
         .when("/register", {
-        templateUrl: "partials/register",
-        controller: "registerController"
+        templateUrl: "partials/register"
     })
         .when("/login", {
         templateUrl: "partials/login"
@@ -25,6 +23,20 @@ app.controller("navController", function ($scope, $http, $rootScope, $location) 
     };
     $scope.register = function () {
         $location.path("/register");
+    };
+});
+app.controller("loginController", function ($scope, $http) {
+    $scope.login = function () {
+        $http({
+            url: "/auth/login",
+            method: "POST",
+            params: {
+                username: $scope.username,
+                password: $scope.password
+            }
+        }).then(function (response) {
+            console.log(response);
+        });
     };
 });
 app.controller("registerController", function ($scope, $http) {

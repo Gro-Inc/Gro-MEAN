@@ -1,11 +1,11 @@
 .container.black-text
-    form(method="post", action="/login/signin")
+    form(method="post", ng-submit="login()", ng-controller="loginController")
         .row
             .col.s4.input-field
-                input(type="text", id="username", name="username")
+                input(type="text", id="username", name="username", ng-model="username")
                 label(for="username") Username
             .col.s4.input-field
-                input(type="password", id="password", name="password")
+                input(type="password", id="password", name="password", ng-model="password")
                 label(for="password") Password
             .col.s4.input-field
                 button(type="submit", class="waves-effect waves-light btn") Log In
