@@ -1,3 +1,4 @@
+const angular = require("angular");
 const app = angular.module("root", ["ngRoute"]);
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider

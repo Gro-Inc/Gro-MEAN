@@ -15,19 +15,15 @@ var config = {
     databaseURL: "https://gro-project.firebaseio.com",
     projectId: "gro-project",
     storageBucket: "gro-project.appspot.com",
-    messagingSenderId: "870268988730"
+    messagingSenderId: "870268988730",
+    serviceAccount: "./Gro-Project-f55952e9a1c0.json"
 };
 
 firebase.initializeApp(config);
 
-require("./models/models");
-
 var index = require("./routes/index");
-var users = require("./routes/users");
 var chat = require("./routes/chat");
 var authenticate = require("./routes/authenticate")(passport);
-var mongoose = require("mongoose");
-// mongoose.connect("mongodb://localhost:27017/Gro");
 
 var app = express();
 
@@ -55,7 +51,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", index);
-app.use("/user", users);
 app.use("/chat", chat);
 app.use("/auth", authenticate);
 
@@ -77,91 +72,5 @@ app.use(function (err, req, res, next) {
         error: app.get('env') === 'development' ? err : {}
     });
 });
-
-var debug = require('debug')('Gro-MEAN:server');
-var http = require("http");
-
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-    var port = parseInt(val, 10);
-
-    if (isNaN(port)) {
-        // named pipe
-        return val;
-    }
-
-    if (port >= 0) {
-        // port number
-        return port;
-    }
-
-    return false;
-}
-
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError(error) {
-    var bind;
-
-    if (error.syscall !== "listen") {
-        throw error;
-    }
-
-    bind = typeof port === 'string'
-        ? 'Pipe ' + port
-        : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-        default:
-            throw error;
-    }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
-        ? 'pipe ' + addr
-        : 'port ' + addr.port;
-    debug('Listening on ' + bind);
-}
 
 module.exports = app;

@@ -15,8 +15,6 @@
     "firebase": "^4.0.0",
     "firebase-admin": "^5.0.0",
     "jade": "~1.11.0",
-    "mongodb": "latest",
-    "mongoose": "^4.9.0",
     "morgan": "~1.7.0",
     "node-sass-middleware": "0.9.8",
     "passport": "^0.3.2",

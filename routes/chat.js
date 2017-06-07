@@ -1,27 +1,20 @@
-let express = require('express');
-let router = express.Router();
-let mongoose = require("mongoose");
-const Message = mongoose.model("Message");
+const express = require('express');
+const router = express.Router();
+const firebase = require("firebase");
 router.get('/get-messages', function (req, res, next) {
-    //   res.send('respond with a resource');
+    const user = firebase.auth().currentUser;
     // Connect to the db
-    Message.find({}, function (err, messages) {
-        if (err) {
-            throw err;
-        }
-        res.send(messages);
-    });
+    if (user != null) {
+        const database = firebase.database();
+        const userId = firebase.auth().currentUser.uid;
+        const messages = database.child("/messages");
+        return firebase.database().ref('/users/' + userId).once('value').then(function (snapshot) {
+            const username = snapshot.val().username;
+        });
+    }
 });
 router.post('/send-message', function (req, res, next) {
-    //   res.send('respond with a resource');
-    const message = new Message({ userId: 1, message: req.query.message });
-    // Connect to the db
-    message.save(function (err, message) {
-        if (err) {
-            throw err;
-        }
-    });
-    res.send(req.query.message);
+    // TODO
 });
 module.exports = router;
 //# sourceMappingURL=chat.js.map
