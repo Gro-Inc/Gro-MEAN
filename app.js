@@ -6,7 +6,7 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var passport = require("passport");
-var firebase = require("firebase/app");
+var firebase = require("firebase");
 require("firebase/auth");
 
 var config = {

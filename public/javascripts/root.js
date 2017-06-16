@@ -60,7 +60,9 @@ app.controller("chatController", function ($scope, $http, $timeout) {
     $scope.messages = [];
     $http({ url: "/chat/get-messages" }).then(function (response) {
         angular.forEach(response.data, function (messageArray) {
-            $scope.messages.push(messageArray.message);
+            if (messageArray !== null) {
+                $scope.messages.push(messageArray.text);
+            }
         });
         $timeout(function () {
             $chatMiddle.animate({ scrollTop: $chatMiddle.prop("scrollHeight") }, "slow");

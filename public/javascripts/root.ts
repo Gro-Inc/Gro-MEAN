@@ -69,7 +69,9 @@ app.controller("chatController", function ($scope, $http, $timeout) {
 
     $http({url: "/chat/get-messages"}).then(function (response) {
         angular.forEach(response.data, function (messageArray) {
-            $scope.messages.push(messageArray.message);
+            if (messageArray !== null) {
+                $scope.messages.push(messageArray.text);
+            }
         });
 
         $timeout(function () {
