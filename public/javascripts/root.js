@@ -25,7 +25,7 @@ app.controller("navController", function ($scope, $http, $rootScope, $location) 
         $location.path("/register");
     };
 });
-app.controller("loginController", function ($scope, $http) {
+app.controller("loginController", function ($scope, $http, $rootScope, $location) {
     $scope.login = function () {
         $http({
             url: "/auth/login",
@@ -35,11 +35,11 @@ app.controller("loginController", function ($scope, $http) {
                 password: $scope.password
             }
         }).then(function (response) {
-            console.log(response);
+            $location.path("/");
         });
     };
 });
-app.controller("registerController", function ($scope, $http) {
+app.controller("registerController", function ($scope, $http, $rootScope, $location) {
     $scope.register = function () {
         $http({
             url: "/auth/signup",
@@ -50,8 +50,8 @@ app.controller("registerController", function ($scope, $http) {
                 firstName: $scope.firstName,
                 lastName: $scope.lastName
             }
-        }).then(function (response) {
-            console.log(response);
+        }).then(function () {
+            $location.path("/");
         });
     };
 });

@@ -10,8 +10,8 @@ module.exports = function (passport) {
 
     //sign up
     router.post('/signup', passport.authenticate('signup', {
-        successRedirect: '/',
-        failureRedirect: '/'
+        successRedirect: '/auth/success',
+        failureRedirect: '/auth/failure'
     }));
 
     //log out
@@ -22,7 +22,7 @@ module.exports = function (passport) {
 
     //sends successful login state back to angular
     router.get('/success', function (req, res) {
-        res.render("signIn", {title: "Signed In"});
+        res.render("/signIn", {title: "Signed In"});
     });
 
     //sends failure login state back to angular

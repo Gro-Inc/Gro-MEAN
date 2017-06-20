@@ -20,6 +20,8 @@ module.exports = function (passport) {
             console.log(error.code + " - " + error.message);
             return done(error.message, null);
         });
+
+        return done(null, username);
     }));
 
     passport.use("signup", new LocalStrategy({
@@ -31,13 +33,7 @@ module.exports = function (passport) {
 
             return done(error.message, null);
         });
+
+        return done(null, username);
     }));
-
-    var isValidPassword = function (user, password) {
-        return bCrypt.compareSync(password, user.password);
-    };
-
-    var createHash = function (password) {
-        return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-    };
 };
