@@ -8,7 +8,61 @@ html(ng-app="root")
         script(src="/javascripts/angular.min.js")
         script(src="/javascripts/root.js")
         script(src="/javascripts/materialize-src/bin/materialize.min.js")
+        script(src="https://cdn.firebase.com/libs/firebaseui/2.2.0/firebaseui.js")
+        link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.2.0/firebaseui.css")
         script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js")
+        script(src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js")
+        script.
+            var config={
+                apiKey: "AIzaSyDpYA6KUAEsMX_SbpTGA5PJjT_F09quMls",
+                authDomain: "gro-project.firebaseapp.com",
+                databaseURL: "https://gro-project.firebaseio.com",
+                projectId: "gro-project",
+                storageBucket: "gro-project.appspot.com",
+                messagingSenderId: "870268988730",
+                serviceAccount: "./Gro-Project-f55952e9a1c0.json"
+            };
+            firebase.initializeApp(config);
+        script.
+            initApp = function() {
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        // User is signed in.
+                        var displayName = user.displayName;
+                        var email = user.email;
+                        var emailVerified = user.emailVerified;
+                        var photoURL = user.photoURL;
+                        var uid = user.uid;
+                        var phoneNumber = user.phoneNumber;
+                        var providerData = user.providerData;
+                        
+                        user.getToken().then(function(accessToken) {
+                            document.getElementById('sign-in-status').textContent = 'Signed in';
+                            document.getElementById('sign-in').textContent = 'Sign out';
+                            document.getElementById('account-details').textContent = JSON.stringify({
+                                displayName: displayName,
+                                email: email,
+                                emailVerified: emailVerified,
+                                phoneNumber: phoneNumber,
+                                photoURL: photoURL,
+                                uid: uid,
+                                accessToken: accessToken,
+                                providerData: providerData
+                            }, null, '  ');
+                        });
+
+                        console.log("Signed In");
+                    } else {
+                        console.log("Signed Out");
+                    }
+                }, function(error) {
+                    console.log(error);
+                });
+            };
+
+            window.addEventListener('load', function() {
+                initApp()
+            });
     body
         nav.z-depth-3.white-text(ng-controller="navController")
             .nav-wrapper

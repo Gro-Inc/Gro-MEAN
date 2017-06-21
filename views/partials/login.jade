@@ -1,11 +1,17 @@
+script(src="https://cdn.firebase.com/libs/firebaseui/2.2.0/firebaseui.js")
+link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.2.0/firebaseui.css")
+script.
+    var uiConfig = {
+        signInSuccessUrl: '/',
+        signInOptions: [
+            firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ],
+        tosUrl: '/'
+    };
+
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start('#firebaseui-auth-container', uiConfig);
 .container.black-text
     form(method="post", ng-submit="login()", ng-controller="loginController")
         .row
-            .col.s4.input-field
-                input(type="text", id="username", name="username", ng-model="username")
-                label(for="username") Username
-            .col.s4.input-field
-                input(type="password", id="password", name="password", ng-model="password")
-                label(for="password") Password
-            .col.s4.input-field
-                button(type="submit", class="waves-effect waves-light btn") Log In
+            #firebaseui-auth-container

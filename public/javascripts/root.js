@@ -67,6 +67,8 @@ app.controller("chatController", function ($scope, $http, $timeout) {
         $timeout(function () {
             $chatMiddle.animate({ scrollTop: $chatMiddle.prop("scrollHeight") }, "slow");
         }, 0, false);
+    }, function (error) {
+        console.log(error);
     });
     $scope.sendMessage = function (keyEvent) {
         if (keyEvent.which === 13 && $scope.chatMessage !== "") {

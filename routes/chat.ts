@@ -5,7 +5,7 @@ const messagesDb = firebase.database().ref("/messages");
 
 class Message{
     text : string;
-};
+}
 
 router.get('/get-messages', function (req, res, next) {
     const user = firebase.auth().currentUser;
