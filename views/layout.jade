@@ -26,32 +26,17 @@ html(ng-app="root")
         script.
             initApp = function() {
                 firebase.auth().onAuthStateChanged(function(user) {
+                    var $userWelcome = $('#user-welcome');
+
                     if (user) {
-                        // User is signed in.
-                        var displayName = user.displayName;
-                        var email = user.email;
-                        var emailVerified = user.emailVerified;
-                        var photoURL = user.photoURL;
-                        var uid = user.uid;
-                        var phoneNumber = user.phoneNumber;
-                        var providerData = user.providerData;
-                        
-                        user.getToken().then(function(accessToken) {
-                            document.getElementById('sign-in-status').textContent = 'Signed in';
-                            document.getElementById('sign-in').textContent = 'Sign out';
-                            document.getElementById('account-details').textContent = JSON.stringify({
-                                displayName: displayName,
-                                email: email,
-                                emailVerified: emailVerified,
-                                phoneNumber: phoneNumber,
-                                photoURL: photoURL,
-                                uid: uid,
-                                accessToken: accessToken,
-                                providerData: providerData
-                            }, null, '  ');
+                        user.getToken().then(function() {
+                            $userWelcome.html('Welcome, ' + user.displayName);
                         });
 
-                        console.log("Signed In");
+                        $("#register").addClass("hide");
+                        $("#login").addClass("hide");
+                        $userWelcome.removeClass("hide");
+                        $("#sign-out").removeClass("hide");
                     } else {
                         console.log("Signed Out");
                     }
@@ -60,9 +45,7 @@ html(ng-app="root")
                 });
             };
 
-            window.addEventListener('load', function() {
-                initApp()
-            });
+            window.addEventListener('load', initApp);
     body
         nav.z-depth-3.white-text(ng-controller="navController")
             .nav-wrapper
@@ -73,8 +56,13 @@ html(ng-app="root")
                             //<ul id="nav-mobile" class="right hide-on-med-and-down input-field" ng-controller="registerController">
                             ul#nav-mobile.right.hide-on-med-and-down.input-field
                                 li
-                                    a(class="waves-effect waves-light btn", ng-click="register()") Register
-                                    a(class="waves-effect waves-light btn", ng-click="login()") Log In
+                                    a(class="hide", id="user-welcome")
+                                li
+                                    a(class="hide", id="sign-out") Sign Out
+                                li
+                                    a(id="register", ng-click="register()") Register
+                                li
+                                    a(id="login", ng-click="login()") Log In
         main
             div(ng-view)
         footer
