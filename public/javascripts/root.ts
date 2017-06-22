@@ -28,6 +28,15 @@ app.controller("navController", function ($scope, $http, $rootScope, $location) 
     $scope.register = function () {
         $location.path("/register");
     };
+
+    $scope.logout = function () {
+        firebase.auth().signOut().then(function () {
+            console.log("Signed out");
+            $location.path("/");
+        }).catch(function (error) {
+            console.log(error);
+        });
+    };
 });
 
 app.controller("loginController", function ($scope, $http, $rootScope, $location) {
@@ -67,32 +76,38 @@ app.controller("chatController", function ($scope, $http, $timeout) {
 
     $scope.messages = [];
 
-    $http({url: "/chat/get-messages"}).then(function (response) {
-        angular.forEach(response.data, function (messageArray) {
-            if (messageArray !== null) {
-                $scope.messages.push(messageArray.text);
-            }
-        });
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            user.getToken(true).then(function (idToken) {
+                $http({url: "/chat/get-messages", params: {token: idToken}}).then(function (response) {
+                    angular.forEach(response.data, function (messageArray) {
+                        if (messageArray !== null) {
+                            $scope.messages.push(messageArray.text);
+                        }
+                    });
 
-        $timeout(function () {
-            $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
-        }, 0, false);
-    }, function (error) {
-        console.log(error);
-    });
+                    $timeout(function () {
+                        $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
+                    }, 0, false);
+                }, function (error) {
+                    console.log(error);
+                });
 
-    $scope.sendMessage = function (keyEvent) {
-        if (keyEvent.which === 13 && $scope.chatMessage !== "") {
-            $http({
-                url: "/chat/send-message",
-                method: "POST",
-                params: {message: $scope.chatMessage}
-            }).then(function (response) {
-                $scope.messages.push(response.data);
-                $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
+                $scope.sendMessage = function (keyEvent) {
+                    if (keyEvent.which === 13 && $scope.chatMessage !== "") {
+                        $http({
+                            url: "/chat/send-message",
+                            method: "POST",
+                            params: {message: $scope.chatMessage, token: idToken}
+                        }).then(function (response) {
+                            $scope.messages.push(response.data);
+                            $chatMiddle.animate({scrollTop: $chatMiddle.prop("scrollHeight")}, "slow");
+                        });
+
+                        $scope.chatMessage = "";
+                    }
+                };
             });
-
-            $scope.chatMessage = "";
         }
-    };
+    });
 });

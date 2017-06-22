@@ -5,25 +5,23 @@ var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
-var passport = require("passport");
-var firebase = require("firebase");
+var admin = require("firebase-admin");
 require("firebase/auth");
+var serviceAccount = require("./Gro-Project-f55952e9a1c0.json");
 
 var config = {
+    credential: admin.credential.cert(serviceAccount),
     apiKey: "AIzaSyDpYA6KUAEsMX_SbpTGA5PJjT_F09quMls",
     authDomain: "gro-project.firebaseapp.com",
     databaseURL: "https://gro-project.firebaseio.com",
-    projectId: "gro-project",
     storageBucket: "gro-project.appspot.com",
-    messagingSenderId: "870268988730",
-    serviceAccount: "./Gro-Project-f55952e9a1c0.json"
+    messagingSenderId: "870268988730"
 };
 
-firebase.initializeApp(config);
+admin.initializeApp(config);
 
 var index = require("./routes/index");
 var chat = require("./routes/chat");
-var authenticate = require("./routes/authenticate")(passport);
 
 var app = express();
 
@@ -47,12 +45,9 @@ app.use(require("node-sass-middleware")({
     sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/", index);
 app.use("/chat", chat);
-app.use("/auth", authenticate);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -60,8 +55,6 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
 });
-
-var initPassport = require("./passport-init")(passport);
 
 // error handler
 // no stacktraces leaked to user
