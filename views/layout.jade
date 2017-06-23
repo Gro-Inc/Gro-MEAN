@@ -13,6 +13,10 @@ html(ng-app="root")
         script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js")
         script(src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js")
         script.
+            $(document).ready(function () {
+                $(".button-collapse").sideNav();
+            })
+        script.
             var config={
                 apiKey: "AIzaSyDpYA6KUAEsMX_SbpTGA5PJjT_F09quMls",
                 authDomain: "gro-project.firebaseapp.com",
@@ -26,17 +30,17 @@ html(ng-app="root")
         script.
             initApp = function() {
                 firebase.auth().onAuthStateChanged(function(user) {
-                    var $userWelcome = $('#user-welcome');
+                    var $userWelcome = $('.nav-user-welcome');
 
                     if (user) {
                         user.getToken().then(function() {
                             $userWelcome.html('Welcome, ' + user.displayName);
                         });
 
-                        $("#register").addClass("hide");
-                        $("#login").addClass("hide");
+                        $(".nav-register").addClass("hide");
+                        $(".nav-login").addClass("hide");
                         $userWelcome.removeClass("hide");
-                        $("#sign-out").removeClass("hide");
+                        $(".nav-sign-out").removeClass("hide");
                     } else {
                         console.log("Signed Out");
                     }
@@ -53,16 +57,26 @@ html(ng-app="root")
                     .row
                         .col.s12
                             a(ng-click="home()", href="", class="brand-logo") Gro
-                            //<ul id="nav-mobile" class="right hide-on-med-and-down input-field" ng-controller="registerController">
-                            ul#nav-mobile.right.hide-on-med-and-down.input-field
+                            a(href="", data-activates="slide-out", class="button-collapse")
+                                i.material-icons menu
+                            ul#nav-mobile.right.hide-on-med-and-down
                                 li
-                                    a(class="hide", id="user-welcome")
+                                    a(class="hide nav-user-welcome")
                                 li
-                                    a(class="hide", id="sign-out", ng-click="logout()") Sign Out
+                                    a(class="hide nav-sign-out", ng-click="logout()") Sign Out
                                 li
-                                    a(id="register", ng-click="register()") Register
+                                    a(class="nav-register", ng-click="register()") Register
                                 li
-                                    a(id="login", ng-click="login()") Log In
+                                    a(class="nav-login", ng-click="login()") Log In
+                            ul.side-nav#slide-out
+                                li
+                                    a(class="hide nav-user-welcome")
+                                li
+                                    a(class="hide nav-sign-out", ng-click="logout()") Sign Out
+                                li
+                                    a(class="nav-register", ng-click="register()") Register
+                                li
+                                    a(class="nav-login", ng-click="login()") Log In
         main
             div(ng-view)
         footer
