@@ -8,7 +8,6 @@ var session = require("express-session");
 var admin = require("firebase-admin");
 var debug = require('debug')('Gro-MEAN:server');
 var http = require("http");
-require("firebase/auth");
 var serviceAccount = require("./Gro-Project-f55952e9a1c0.json");
 
 var config = {
