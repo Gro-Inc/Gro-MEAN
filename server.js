@@ -6,6 +6,8 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var admin = require("firebase-admin");
+var debug = require('debug')('Gro-MEAN:server');
+var http = require("http");
 require("firebase/auth");
 var serviceAccount = require("./Gro-Project-f55952e9a1c0.json");
 
@@ -66,10 +68,6 @@ app.use(function (err, req, res, next) {
     });
 });
 
-module.exports = app;
-
-var debug = require('debug')('Gro-MEAN:server');
-var http = require("http");
 /**
  * Get port from environment and store in Express.
  */
@@ -135,3 +133,5 @@ function onListening() {
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 }
+
+module.exports = app;
